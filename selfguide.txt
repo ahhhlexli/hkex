@@ -1,0 +1,24 @@
+#find history of all my current stocks and save them somewhere
+
+#keep track of my own portfolio 
+
+
+02020
+00388
+01337
+02013
+00712
+01093
+09988
+00438
+06865
+01137
+00757
+00762
+08326
+
+Additional Features:
+#realtime tracker
+#notify me when reaching certain benchmarks? 
+	- Above target price
+	- 10%, 20% above purchase price or below purchase price
