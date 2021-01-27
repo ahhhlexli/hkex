@@ -6,8 +6,11 @@ from datetime import datetime
 module_path = inspect.getfile(inspect.currentframe())
 module_dir = os.path.realpath(os.path.dirname(module_path))
 os.chdir(module_dir)
+date = datetime.today().strftime("%Y-%m-%d")
+
 
 portfolio = pd.read_csv('./portfolio.csv', index_col=0)
+portfolio.Stock = portfolio.Stock.astype(dtype='int32')
 
 print('----------')
 stock = input("Enter stock code: ")
@@ -20,19 +23,17 @@ print('----------')
 
 available = int(status['Amount_Available'].sum())
 print(f"Amount Available: {available}")
-av_price = round(sum(status['Adjusted_Price'] * status['Amount_Purchased']) / sum(status['Amount_Purchased']), 2)
-print(f"Average Purchase Price: {av_price}")
+
+#STORE AV PRICE AS A DIFFERENT FEATURE IN MAIN
+# av_price = round(sum(status['Adjusted_Price'] * status['Amount_Purchased']) / sum(status['Amount_Purchased']), 2)
+# print(f"Average Purchase Price: {av_price}")
 print('----------')
 
-
-# index_list = list(status.index)
-# print(index_list)
-
 amount = int(input("Enter amount sold: "))
-sale_price = float(input("Enter sale price: "))
 while amount > available:
     print('Invalid amount entered.')
     amount = int(input("Enter amount sold: "))
+sale_price = float(input("Enter sale price: "))
 
 # print(available - amount)
 for index, row in status.iterrows():
@@ -40,7 +41,7 @@ for index, row in status.iterrows():
         amount_sold = row['Amount_Purchased']
         status.at[index, 'Amount_Available'] = 0
         status.at[index, 'Amount_Sold'] = status.at[index, 'Amount_Purchased']
-        
+        status.at[index, 'Date_Sold'] = date
         status.at[index, 'Sale_Price'] = row['Sale_Price'] + (amount_sold * sale_price)
         #status.loc[index]['Amount_Available'] = available - row['Amount_Available']
         amount -= row['Amount_Available']
@@ -50,10 +51,21 @@ for index, row in status.iterrows():
         amount_sold = amount 
         status.at[index, 'Amount_Available'] = remainder 
         status.at[index, 'Amount_Sold'] = row['Amount_Purchased'] - status.at[index, 'Amount_Available']
-
+        status.at[index, 'Date_Sold'] = date
         status.at[index, 'Sale_Price'] = row['Sale_Price'] + (amount_sold * sale_price)
         break
 
-status.Profit_Loss = [(status.Profit_Loss + status.Sale_Price - status['Purchase Value']) if status.Amount_Purchased == status.Amount_Sold else 0 for i in status.Profit_Loss]
+for i in range(len(status)):
+    if status.Amount_Purchased.iloc[i] == status.Amount_Sold.iloc[i]:
+        status.Profit_Loss.iloc[i] = status.Sale_Price.iloc[i] - status.Adjusted_Purchase_Total.iloc[i]
 
+print(f"Overview of This Sale - {stock}")
+print('-----')
 print(status)
+print('-----')
+print('Portfolio Overview')
+print('-----')
+portfolio.update(status)
+portfolio.Stock = portfolio.Stock.astype(dtype='int32')
+print(portfolio)
+portfolio.to_csv('./portfolio.csv')
