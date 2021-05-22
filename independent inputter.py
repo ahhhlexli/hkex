@@ -1,7 +1,7 @@
 import time
 import os
 import inspect
-from pyautogui import press, typewrite, hotkey
+from pyautogui import hotkey
 from datetime import datetime
 from selenium import webdriver
 import pandas as pd
@@ -17,6 +17,7 @@ chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument('--headless')
 chrome_options.add_argument('--ignore-certificate-errors')
 chrome_options.add_argument('--ignore-ssl-errors')
+chrome_options.add_argument('--disable-logging')
 chrome_options.add_argument("--log-level=3")
 
 DRIVER_PATH = 'C:/Program Files (x86)/chromedriver.exe'

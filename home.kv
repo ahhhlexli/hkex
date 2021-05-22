@@ -1,0 +1,66 @@
+#:import C kivy.utils.get_color_from_hex
+
+<StockCode>:
+   
+    number: number
+    info: info  # Global variable name references the id name
+    #email: email  # Global variable email references the id email
+
+    GridLayout:
+        canvas.before:
+            Color:
+                rgb: C("#696969")
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        cols:1
+        size: root.width, root.height
+
+        GridLayout:
+            cols:2
+            padding: 50, 20, 50, 20
+            spacing: 0, 20
+            
+            Label:
+                text: "Stock Code: "
+                text_size: self.size
+                halign: 'left'
+                valign: 'middle'
+                size_hint_y: 0.5
+                font_size: 20
+
+            TextInput:
+                id: number  
+                size_hint_y: 0.5
+                font_size: 36
+                valign: 'middle'
+                multiline:False
+                writetab: False
+                on_text_validate: root.btn()
+
+            Label:
+                text: "Info: "
+                text_size: self.size
+                halign: 'left'
+                valign: 'middle'
+                font_size: 20
+                                
+            Label:
+                id: info
+                text_size: self.size
+                halign: 'left'
+                valign: 'middle'
+                font_size: 18
+
+        FloatLayout:
+            size_hint_y: 0.5
+            
+            Button:
+                pos_hint: {'center_x': .5, 'center_y': .5}
+                size_hint_x: None
+                size_hint_y: 0.5
+                width: 100
+                text:"Submit"
+                on_press: root.btn()
+                
