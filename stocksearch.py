@@ -58,7 +58,6 @@ def stock_input(query, driver):
     time.sleep(0.5)
 
     try:
-
         name = driver.find_element_by_xpath('//*[@id="StkQuoteHeader"]').text
         price = driver.find_element_by_xpath('//*[@id="StkDetailMainBox"]/table/tbody/tr[1]/td[1]/span[1]').text
         change = driver.find_element_by_xpath('//*[@id="StkDetailMainBox"]/table/tbody/tr[1]/td[1]/span[2]').text
@@ -70,7 +69,7 @@ def stock_input(query, driver):
         print(change)
         print(call_time)
         print('\n')
-        #name = name.split(' ', 1)
+        name = name.split(' ', 1)
 
         #current_session.loc[len(current_session.index)] = [name[0], name[1], price, change, call_time]
     except:

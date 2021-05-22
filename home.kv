@@ -5,6 +5,7 @@
     number: number
     info: info  # Global variable name references the id name
     #email: email  # Global variable email references the id email
+    current: current
 
     GridLayout:
         canvas.before:
@@ -18,6 +19,13 @@
         size: root.width, root.height
 
         GridLayout:
+            # canvas.before:
+            #     Color:
+            #         rgb: C("#000080")
+            #     Rectangle:
+            #         pos: self.pos
+            #         size: self.size
+
             cols:2
             padding: 50, 20, 50, 20
             spacing: 0, 20
@@ -37,7 +45,7 @@
                 valign: 'middle'
                 multiline:False
                 writetab: False
-                on_text_validate: root.btn()
+                on_text_validate: root.search()
 
             Label:
                 text: "Info: "
@@ -57,10 +65,27 @@
             size_hint_y: 0.5
             
             Button:
-                pos_hint: {'center_x': .5, 'center_y': .5}
+                pos_hint: {'center_x': .25, 'center_y': .5}
                 size_hint_x: None
                 size_hint_y: 0.5
-                width: 100
+                width: 150
                 text:"Submit"
-                on_press: root.btn()
-                
+                on_press: root.search()
+
+            Button:
+                pos_hint: {'center_x': .75, 'center_y': .5}
+                size_hint_x: None
+                size_hint_y: 0.5
+                width: 150
+                text:"Search History"
+                on_press: root.history()
+
+        GridLayout:
+            cols: 1
+            padding: 50, 20, 50, 20
+            
+            Label:
+                id: current
+                text_size: self.size
+                halign: 'left'
+                valign: 'middle'
