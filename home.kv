@@ -5,7 +5,7 @@
     number: number
     info: info  # Global variable name references the id name
     #email: email  # Global variable email references the id email
-    current: current
+    #current: current
 
     GridLayout:
         canvas.before:
@@ -35,12 +35,16 @@
                 text_size: self.size
                 halign: 'left'
                 valign: 'middle'
+                size_hint_x: 0.3
                 size_hint_y: 0.5
+                width: 50
                 font_size: 20
 
             TextInput:
                 id: number  
+                size_hint_x: 0.7
                 size_hint_y: 0.5
+                width: 400
                 font_size: 36
                 valign: 'middle'
                 multiline:False
@@ -50,6 +54,8 @@
             Label:
                 text: "Info: "
                 text_size: self.size
+                size_hint_x: 0.3
+                size_hint_y: 0.9
                 halign: 'left'
                 valign: 'middle'
                 font_size: 20
@@ -57,6 +63,8 @@
             Label:
                 id: info
                 text_size: self.size
+                size_hint_x: 0.7
+                size_hint_y: 0.9
                 halign: 'left'
                 valign: 'middle'
                 font_size: 18
@@ -78,14 +86,35 @@
                 size_hint_y: 0.5
                 width: 150
                 text:"Search History"
-                on_press: root.history()
+                on_press: root.manager.current = 'history'
 
-        GridLayout:
-            cols: 1
-            padding: 50, 20, 50, 20
+        # GridLayout:
+        #     cols: 1
+        #     padding: 50, 20, 50, 20
             
-            Label:
-                id: current
-                text_size: self.size
-                halign: 'left'
-                valign: 'middle'
+        #     Label:
+        #         id: current
+        #         text_size: self.size
+        #         halign: 'left'
+        #         valign: 'middle'
+
+<RV>:
+    
+    RecycleBoxLayout:
+        default_size: None, dp(56)
+        default_size_hint: 1, None
+        size_hint_y: None
+        height: self.minimum_height
+        orientation: 'vertical'
+        multiselect: True
+        touch_multiselect: True
+
+<HistoryScreen>:
+    BoxLayout:
+        #orientation: "vertical"
+        RV:
+        Button:
+            text: 'Previous screen'
+            size_hint: None, None
+            size: 150, 50
+            on_release: root.manager.current = root.manager.previous()
